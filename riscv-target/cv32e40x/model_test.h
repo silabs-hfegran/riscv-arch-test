@@ -13,6 +13,21 @@
 // RV Compliance Macros
 //-----------------------------------------------------------------------
 
+/* RVMODEL_DATA_BEGIN
+ * RVMODEL_DATA_END
+ * RVMODEL_HALT
+ *
+ * RVMODEL_BOOT
+ * RVMODEL_IO_INIT
+ * RVMODEL_IO_CHECK
+ * 
+ *
+ *
+ *
+ *
+ *
+ */
+
 #define TESTUTIL_BASE 0x20000000
 #define TESTUTIL_ADDR_HALT (TESTUTIL_BASE + 0x10)
 #define TESTUTIL_ADDR_BEGIN_SIGNATURE (TESTUTIL_BASE + 0x8)
@@ -33,18 +48,20 @@
         sw t0, 0(t1);                                                         \
         RVTEST_PASS                                                           \
 
-#define RVMODEL_BOOT
+#define RVMODEL_BOOT \
+        RVMODEL_IO_INIT; \
+        RVTEST_CODE_BEGIN_OLD \
 
 #define RVMODEL_SET_MSW_INT
 #define RVMODEL_CLEAR_MSW_INT
 #define RVMODEL_CLEAR_MTIMER_INT
 #define RVMODEL_CLEAR_MEXT_INT
 
-#define RV_COMPLIANCE_CODE_BEGIN                                        \
-        RVTEST_CODE_BEGIN_OLD                                           \
+//#define RV_COMPLIANCE_CODE_BEGIN                                        \
+//        RVTEST_CODE_BEGIN_OLD                                           \
 
-#define RV_COMPLIANCE_CODE_END                                          \
-        RVTEST_CODE_END_OLD                                             \
+//#define RV_COMPLIANCE_CODE_END                                          \
+//        RVTEST_CODE_END_OLD                                             \
 
 #define RVMODEL_DATA_BEGIN                                              \
         RVTEST_DATA_BEGIN_OLD                                           \
@@ -199,9 +216,9 @@
     LOCAL_IO_POP(_SP)
 
 // generate assertion listing
-//#define LOCAL_CHECK() RVTEST_IO_CHECK()
-//#define RVTEST_IO_CHECK()                                               \
-//    li zero, -1;                                                        \
+#define LOCAL_CHECK() RVTEST_IO_CHECK()
+#define RVTEST_IO_CHECK()                                               \
+    li zero, -1;                                                        \
 
 .section .text
 //
