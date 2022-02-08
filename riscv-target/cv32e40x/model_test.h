@@ -33,8 +33,7 @@
         sw t0, 0(t1);                                                         \
         RVTEST_PASS                                                           \
 
-#define RVMODEL_BOOT \
-        RVTEST_CODE_BEGIN_OLD \
+#define RVMODEL_BOOT
 
 #define RVMODEL_SET_MSW_INT
 #define RVMODEL_CLEAR_MSW_INT
