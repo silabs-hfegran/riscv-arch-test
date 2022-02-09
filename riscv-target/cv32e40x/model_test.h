@@ -13,25 +13,10 @@
 // RV Compliance Macros
 //-----------------------------------------------------------------------
 
-/* RVMODEL_DATA_BEGIN
- * RVMODEL_DATA_END
- * RVMODEL_HALT
- *
- * RVMODEL_BOOT
- * RVMODEL_IO_INIT
- * RVMODEL_IO_CHECK
- * 
- *
- *
- *
- *
- *
- */
-
-#define TESTUTIL_BASE 0x20000000
-#define TESTUTIL_ADDR_HALT (TESTUTIL_BASE + 0x10)
-#define TESTUTIL_ADDR_BEGIN_SIGNATURE (TESTUTIL_BASE + 0x8)
-#define TESTUTIL_ADDR_END_SIGNATURE (TESTUTIL_BASE + 0xc)
+#define TESTUTIL_BASE 0x800000
+#define TESTUTIL_ADDR_HALT (TESTUTIL_BASE + 0xc0)
+#define TESTUTIL_ADDR_BEGIN_SIGNATURE (TESTUTIL_BASE + 0x200)
+#define TESTUTIL_ADDR_END_SIGNATURE (TESTUTIL_BASE + 0x204)
 
 #define RVMODEL_HALT                                                    \
         /* tell simulation about location of begin_signature */               \
@@ -43,12 +28,15 @@
         li t1, TESTUTIL_ADDR_END_SIGNATURE;                                   \
         sw t0, 0(t1);                                                         \
         /* dump signature and terminate simulation */                         \
-        li t0, 1;                                                             \
+        li t0, 123456789;                                                             \
         li t1, TESTUTIL_ADDR_HALT;                                            \
         sw t0, 0(t1);                                                         \
         RVTEST_PASS                                                           \
 
+#define RVMODEL_IO_INIT
+
 #define RVMODEL_BOOT \
+        RVTEST_RV32M; \
         RVMODEL_IO_INIT; \
         RVTEST_CODE_BEGIN_OLD \
 
@@ -56,12 +44,6 @@
 #define RVMODEL_CLEAR_MSW_INT
 #define RVMODEL_CLEAR_MTIMER_INT
 #define RVMODEL_CLEAR_MEXT_INT
-
-//#define RV_COMPLIANCE_CODE_BEGIN                                        \
-//        RVTEST_CODE_BEGIN_OLD                                           \
-
-//#define RV_COMPLIANCE_CODE_END                                          \
-//        RVTEST_CODE_END_OLD                                             \
 
 #define RVMODEL_DATA_BEGIN                                              \
         RVTEST_DATA_BEGIN_OLD                                           \
