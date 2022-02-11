@@ -36,6 +36,11 @@
 #define RVMODEL_IO_INIT
 
 #define RVMODEL_BOOT \
+        /* Set up mtvec boot value */ \
+        la t0, 0; \
+        ori t0, t0, 1; \
+        csrw 0x305, t0; \
+        /* Standard initialization procedures */ \
         RVTEST_RV32M; \
         RVMODEL_IO_INIT; \
         RVTEST_CODE_BEGIN_OLD \
