@@ -1,12 +1,13 @@
-Failing tests 
+##Failing tests
 
-All of these tests define a local trap handler.
-the location of this trap handler does not fit with the vectored traps used in the cv32e40p
-so when a trap occurs, it is going to the wrong location
+#The following tests fail due to not all bits in mtvec being writable in machine mode
+* cebreak-01
+* ebreak
+* ecall
 
-
-These require further trap support
-MISALIGN_JMP
-MISALIGN_LDST
-ECALL
-EBREAK
+#The following tests fail due to hardware-support for misaligned load/stores
+* misalign-lh-01
+* misalign-lhu-01
+* misalign-lw-01
+* misalign-sh-01
+* misalign-sw-01

@@ -19,7 +19,7 @@ pushd core-v-verif
     git checkout rm_update
 popd
 
-pushd core-v-verif/cv32/sim/uvmt_cv32
+pushd core-v-verif/cv32e40x/sim/uvmt
     MAKEVARS="SIMULATOR=xrun TARGET=XCELIUM"
     make ${MAKEVARS} clean_all
     make ${MAKEVARS} sanity
@@ -34,11 +34,17 @@ pushd riscv-compliance
     export CORE_V_VERIF=${TOP}/core-v-verif
     # setup gcc compiler and PREFIX
     # PATH=${PATH}:<PATH_TO_BIN>
-    export RISCV_PREFIX=riscv-none-embed-
 
-    make RISCV_TARGET=OpenHW RISCV_DEVICE=cv32e40x NOTRAPS=1 RISCV_ISA=rv32i
-    make RISCV_TARGET=OpenHW RISCV_DEVICE=cv32e40x NOTRAPS=1 RISCV_ISA=rv32im
-    make RISCV_TARGET=OpenHW RISCV_DEVICE=cv32e40x NOTRAPS=1 RISCV_ISA=rv32imc
-    make RISCV_TARGET=OpenHW RISCV_DEVICE=cv32e40x NOTRAPS=1 RISCV_ISA=rv32Zicsr
-    make RISCV_TARGET=OpenHW RISCV_DEVICE=cv32e40x NOTRAPS=1 RISCV_ISA=rv32Zifencei
+    export CV_SW_TOOLCHAIN=<path to toolchain>
+    export CV_SW_PREFIX=riscv32-unknown-elf-
+    export CV_SW_VENDOR=unknown
+    export CV_SIMULATOR=xrun
+    export CV_CORE=cv32e40x
+
+    make RISCV_TARGET=cv32e40x RISCV_ISA=rv32i_m RISCV_DEVICE=I
+    make RISCV_TARGET=cv32e40x RISCV_ISA=rv32i_m RISCV_DEVICE=M
+    make RISCV_TARGET=cv32e40x RISCV_ISA=rv32i_m RISCV_DEVICE=C
+    make RISCV_TARGET=cv32e40x RISCV_ISA=rv32i_m RISCV_DEVICE=Zifencei
+    make RISCV_TARGET=cv32e40x RISCV_ISA=rv32i_m RISCV_DEVICE=privilege
 popd
+
